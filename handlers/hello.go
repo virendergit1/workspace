@@ -11,20 +11,20 @@ type Hello struct {
 	l *log.Logger
 }
 
+// this is like constructor which works on a Struct defined above
 func NewHello(l *log.Logger) *Hello {
 	return &Hello{l}
 }
 
+// now the methods
 func (h *Hello) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	log.Println("Hello World!")
 
 	data, err := io.ReadAll(r.Body)
 
 	if err != nil {
 		http.Error(rw, "Oops", http.StatusBadRequest)
+		return
 	}
 
-	log.Printf("Data received %s\n", data)
-
-	fmt.Fprintf(rw, "Hello %s\n", data)
+	fmt.Fprintf(rw, "Hello from h handler %s\n", data)
 }
